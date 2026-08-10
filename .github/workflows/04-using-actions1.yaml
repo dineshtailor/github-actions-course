@@ -1,6 +1,5 @@
 name: 04-using-action
 on:
-  push:
   workflow_dispatch:
  
 jobs:
