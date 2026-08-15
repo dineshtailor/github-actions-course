@@ -1,0 +1,29 @@
+name: 13-using cacheing
+on:
+  workflow_dispatch:
+    input:
+      use-cache:
+        description: Whether to use the Cache
+        default: true
+        type: boolean
+job:
+  build:
+    runs-on: ubuntu-latest
+      defaults:
+        run:
+          workding_directory: 13-caching/react-app/
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v7
+      - name: setup node
+        uses: actions/setup-node@v6
+        with:
+          node_version: "26.x"    
+      - name: install dependencies
+        run: npm ci
+      - name: testing
+        run: rpm run test
+      - name: build
+        run: npm run build    
+      - name: Deploy on nonprod
+        run: echo "Deploying on non prod"      
