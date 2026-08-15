@@ -6,7 +6,7 @@ on:
         description: Whether to use the Cache
         default: true
         type: boolean
-job:
+jobs:
   build:
     runs-on: ubuntu-latest
     defaults:
