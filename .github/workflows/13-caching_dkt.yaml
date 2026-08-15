@@ -19,10 +19,19 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: "25.x"    
+      - name: Download cache dependencies
+        uses: actions/cache@v6
+        if: ${{ inputs.use-cache }}
+        id: cache
+        with: 
+          path: 13-caching/react-app/node_modules
+          key: deps-node-modules-${{ hashFiles('13-caching/react-app/package-lock.json') }}
+
       - name: install dependencies
+        if: steps.cache.output.cache-hit != 'true'
         run: npm ci
       - name: testing
-        run: rpm run test
+        run: npm run test
       - name: build
         run: npm run build    
       - name: Deploy on nonprod
