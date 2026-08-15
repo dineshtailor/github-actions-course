@@ -1,7 +1,7 @@
-name: 13-using cacheing
+name: 13-using cacheing-DKT
 on:
   workflow_dispatch:
-    input:
+    inputs:
       use-cache:
         description: Whether to use the Cache
         default: true
