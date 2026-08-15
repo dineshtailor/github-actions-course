@@ -1,7 +1,8 @@
 name: 11 - working with input
+
 on:
   workflow_dispatch:
-  inputs:
+    inputs:
       dry-run:
         default: false
         type: boolean  
