@@ -1,0 +1,51 @@
+name: 14-working with artifact - DKT
+
+on:
+  workflow_dispatch:
+
+jobs:    
+  test-build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: 14-artifacts/react-app/  
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7      
+      - name: setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: "24.x"
+      - name: Download cached dependencies
+        uses: actions/cache@v6
+        id: chache      
+        with:
+          path: 14-artifacts/react-app/node_modules
+          key: deps-node-modules-${{ hashFiles('14-artifacts/react-app/package-lock.json') }}  
+          
+      - name: install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm ci
+           
+      - name: testing
+        run: npm run test
+
+      - name: build
+        run: npm run build    
+
+      - name: upload build artifact file
+        uses: actions/upload-artifact@v7
+        with:
+          name: app 
+          path: 14-artifacts/react-app/build
+            
+  deploy:
+    runs-on: ubuntu-latest
+    step:
+      - name: Download artifacts
+        uses: actions/download-artifact@v7
+        with:
+          name: app  
+          path: 14-artifacts/react-app/build  
+      - name: show the directory structure
+        run: ls -R      
